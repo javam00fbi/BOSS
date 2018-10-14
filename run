@@ -46,7 +46,7 @@ fi
 
 
 TOKEN=`cat ./inc/Token.txt`
-  
+chmod +x ./TG
 if [ "$1" == "TG" ] ; then
 while(true) do
 killall -q ./TG
