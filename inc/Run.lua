@@ -636,9 +636,9 @@ function tdcli_update_callback(data)
 	print("¦ userTypeDeleted")
 	os.execute('redis-cli KEYS "*'..data.user_.id_..'*" | xargs redis-cli DEL')
 	elseif data.user_.type_.ID == "UserTypeGeneral" then
-	local CheckUser = redis:hgetall(boss..'username:'..data.user_.id_).username:gsub('_',[[\_]])
+	local CheckUser = redis:hgetall(boss..'username:'..data.user_.id_).username
 	if data.user_.username_  then 
-	USERNAME = '@'..data.user_.username_
+	USERNAME = '@'..data.user_.username_:gsub('_',[[\_]])
 	else
 	USERNAME = data.user_.first_name_..' '..(data.user_.last_name_ or "" )
 	end	
