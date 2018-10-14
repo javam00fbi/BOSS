@@ -20,23 +20,7 @@ WHITB='\033[01;90m'
 WHITEC='\033[01;91m'
 CNIL='\033[0m'
 Version=`lsb_release -rs | cut -f1 -d"."`
-if [ "$Version" -lt "16" ];then
-echo -e "${GREEN}
- ▀█████████▄   ▄██████▄     ▄████████    ▄████████
-   ███    ███ ███    ███   ███    ███   ███    ███
-   ███    ███ ███    ███   ███    █▀    ███    █▀
-  ▄███▄▄▄██▀  ███    ███   ███          ███
- ▀▀███▀▀▀██▄  ███    ███ ▀███████████ ▀███████████ ¦ Dev : @TH3BOSS
-   ███    ██▄ ███    ███          ███          ███ ¦ Dev : @BLCON
-   ███    ███ ███    ███    ▄█    ███    ▄█    ███ ¦ Source TH3BOSS
- ▄█████████▀   ▀██████▀   ▄████████▀   ▄████████▀  ¦ BY @TH3BS
- ---------------------------------------------------------------------${CNIL}"
-echo -e "${RED}| للاسف لايمكنك تنصيب السورس ع نظام اوبنتو {${Version}} يجب ان يكون على اصدار احدث مثلا اوبنتو ${SMAY}16
-${CNIL}";
-echo -e "${RED}| Sorry Canot install Source on Ubuntu {${Version}} Please upgrade Your system To Ubuntu ${SMAY}16${RED} For Run The Source Th3Boss 
-${CNIL}";
-exit;
-fi
+
 
 
 if [ ! -f "./TG" ]; then
