@@ -19,24 +19,7 @@ LSAMAY='\033[01;49m'
 WHITB='\033[01;90m'
 WHITEC='\033[01;91m'
 CNIL='\033[0m'
-Version=`lsb_release -rs | cut -f1 -d"."`
-if [ "$Version" -lt "16" ];then
-echo -e "${GREEN}
- ▀█████████▄   ▄██████▄     ▄████████    ▄████████
-   ███    ███ ███    ███   ███    ███   ███    ███
-   ███    ███ ███    ███   ███    █▀    ███    █▀
-  ▄███▄▄▄██▀  ███    ███   ███          ███
- ▀▀███▀▀▀██▄  ███    ███ ▀███████████ ▀███████████ ¦ Dev : @TH3BOSS
-   ███    ██▄ ███    ███          ███          ███ ¦ Dev : @BLCON
-   ███    ███ ███    ███    ▄█    ███    ▄█    ███ ¦ Source TH3BOSS
- ▄█████████▀   ▀██████▀   ▄████████▀   ▄████████▀  ¦ BY @TH3BS
- ---------------------------------------------------------------------${CNIL}"
-echo -e "${RED}| للاسف لايمكنك تنصيب السورس ع نظام اوبنتو {${Version}} يجب ان يكون على اصدار احدث مثلا اوبنتو ${SMAY}16
-${CNIL}";
-echo -e "${RED}| Sorry Canot install Source on Ubuntu {${Version}} Please upgrade Your system To Ubuntu ${SMAY}16${RED} For Run The Source Th3Boss 
-${CNIL}";
-exit;
-fi
+
 printf "${SMAY}\n"
 Show_Th3bs=(
 
@@ -78,6 +61,7 @@ GET_INSTALL=$(redis-cli get TH3BOSS_INSTALL)
 if [ "${GET_INSTALL}" == "Yes" ]; then
 echo -e "
 ${SMAY}>> ${LSAMAY}Source TH3BOSS${SMAY} is Already Installed ^_^ .\n${CNIL}"
+chmod +x ./run
 ./run
 exit;
 fi 
