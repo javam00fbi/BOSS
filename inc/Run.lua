@@ -10,9 +10,9 @@
 #---------------------------------------------------------------------
 ]] 
 Er_cjson, JSON  = pcall(require, "cjson")
-Er_ssl, https   = pcall(require, "ssl.https")
-Er_url, URL     = pcall(require, "socket.url")
-Er_http, http   = pcall(require, "socket.http")
+Er_ssl,   https = pcall(require, "ssl.https")
+Er_url,   URL   = pcall(require, "socket.url")
+Er_http,  http  = pcall(require, "socket.http")
 Er_redis, redis = pcall(require, "redis")
 
 redis = redis.connect('127.0.0.1',6379)
@@ -183,7 +183,7 @@ print('\27[0;33m>>'..[[
 ]]..'\027[0;32m'
 ..'¦ TOKEN_BOT: \27[1;34m'..Token..'\027[0;32m\n'
 ..'¦ BOT__INFO: \27[1;34m'.. Bot_User..'\27[0;36m » ('..boss..')\027[0;32m\n'
-..'¦ INFO_SUDO: \27[1;34m'..SUDO_USER..'\27[0;36m » ('..SUDO_ID..')\27[m\027[0;32m\n'
+..'¦ INFO_SUDO: \27[1;34m'..SUDO_USER:gsub([[\_]],'_')..'\27[0;36m » ('..SUDO_ID..')\27[m\027[0;32m\n'
 ..'¦ Run_Scrpt: \27[1;34m./inc/Script.lua\027[0;32m \n'
 ..'¦ LOGIN__IN: \27[1;34m'..login..'\027[0;32m \n'
 ..'¦ VERSION->: \27[1;34mv'..version..'\027[0;32m\n'
@@ -220,7 +220,7 @@ Start_Bot()
 
 function input_inFo(msg)
 
-if not msg.forward_info and msg.is_channel_post_ then
+if not msg.forward_info_ and msg.is_channel_post_ then
 StatusLeft(msg.chat_id_,our_id)
 return false
 end
@@ -636,10 +636,10 @@ function tdcli_update_callback(data)
 	print("¦ userTypeDeleted")
 	os.execute('redis-cli KEYS "*'..data.user_.id_..'*" | xargs redis-cli DEL')
 	elseif data.user_.type_.ID == "UserTypeGeneral" then
-	local CheckUser = redis:hgetall(boss..'username:'..data.user_.id_).username
+	local CheckUser = redis:hgetall(boss..'username:'..data.user_.id_).username:gsub('_',[[\_]])
 	if data.user_.username_  then 
-	USERNAME = '@'..data.user_.username_:gsub("_",[[\_]])
-	else 
+	USERNAME = '@'..data.user_.username_
+	else
 	USERNAME = data.user_.first_name_..' '..(data.user_.last_name_ or "" )
 	end	
 	if CheckUser and CheckUser ~= USERNAME  then
