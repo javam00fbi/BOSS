@@ -1429,17 +1429,14 @@ if not SudoBase() then return "📛*¦* هذا الامر يخص {المطور �
 if msg.reply_id then
 GetMsgInfo(msg.chat_id_,msg.reply_id,function(arg, data)
 if data.content_.ID == 'MessageDocument' then
-local file_name = data.content_.document.file_name:lower()
+local file_name = data.content_.document_.file_name_:lower()
 if file_name:match('.json')then
 if file_name:match('@[%a%d_]+.json') then
-if file_name:match('@[%a%d_]+') == Bot_User then
---sendMsg(msg.chat_id_,msg.id_,'⏳*┇* جاري رفع النسخه انتظر قليلا ... \n⌛️')
-local GetInfo = https.request(GetFilePath(data.content_.document.document.persistent_id))
+if file_name:match('@[%a%d_]+'):lower() == Bot_User:lower() then 
+sendMsg(msg.chat_id_,msg.id_,'⏳*┇* جاري رفع النسخه انتظر قليلا ... \n⌛️')
+local GetInfo = GetFilePath(data.content_.document_.document_.persistent_id_)
 local All_Groups = JSON.decode(GetInfo)
-print(All_Groups.BotID)
-print(All_Groups.UserBot)
 for k,IDS in pairs(All_Groups.Groups) do
-
 redis:mset(
 boss..'group:name'..k,IDS.Title,
 boss..'num_msg_max'..k,5,
@@ -1478,24 +1475,23 @@ redis:sadd(boss..'owners:'..k,ID)
 end
 end
 end
-return '📦*¦* تم رفع آلنسـخهہ‏‏ آلآحتيآطـيهہ\n⚖️*¦* حآليآ عدد مـجمـوعآتگ هہ‏‏يهہ‏‏ *'..redis:scard(boss..'group:ids')..'* 🌿\n✓'
-else
-return "📛*¦* عذرا النسخه الاحتياطيه هذا ليست للبوت » ["..Bot_User.."]  \n❕"
+sendMsg(msg.chat_id_,msg.id_,'📦*¦* تم رفع آلنسـخهہ‏‏ آلآحتيآطـيهہ\n⚖️*¦* حآليآ عدد مـجمـوعآتگ هہ‏‏يهہ‏‏ *'..redis:scard(boss..'group:ids')..'* 🌿\n✓')
+
+else 
+sendMsg(msg.chat_id_,msg.id_,"📛*¦* عذرا النسخه الاحتياطيه هذا ليست للبوت » ["..Bot_User.."]  \n❕")
 end
 else 
-return '📛*¦* عذرا اسم الملف غير مدعوم للنظام او لا يتوافق مع سورس الزعيم يرجى جلب الملف الاصلي الذي قمت بسحبه وبدون تعديل ع الاسم\n❕'
+sendMsg(msg.chat_id_,msg.id_,'📛*¦* عذرا اسم الملف غير مدعوم للنظام او لا يتوافق مع سورس الزعيم يرجى جلب الملف الاصلي الذي قمت بسحبه وبدون تعديل ع الاسم\n❕')
 end  
-
 else
-return '📛*¦* عذرا الملف ليس بصيغه Json !?\n❕'
+sendMsg(msg.chat_id_,msg.id_,'📛*¦* عذرا الملف ليس بصيغه Json !?\n❕')
 end 
 else
-return '📛*¦* عذرا هذا ليس ملف النسحه الاحتياطيه للمجموعات\n❕'
+sendMsg(msg.chat_id_,msg.id_,'📛*¦* عذرا هذا ليس ملف النسحه الاحتياطيه للمجموعات\n❕')
 end 
-
 end,nil)
 else 
-return "📦*¦* ارسل ملف النسخه الاحتياطيه اولا\n📑*¦* ثم قم بالرد على الملف وارسل `\" رفع نسخه الاحتياطيه \"` "
+return "📦*¦* ارسل ملف النسخه الاحتياطيه اولا\n📑*¦* ثم قم بالرد على الملف وارسل \" `رفع نسخه الاحتياطيه` \" "
 end 
 return false
 end
@@ -1890,7 +1886,7 @@ return [[
 
  ⇓⇓⇓ 
 
-`git clone https://github.com/TH3BS/BOSS.git ;cd BOSS;chmod +x ins;./ins`
+`git clone https://github.com/TH3BS/Zaem.git ;cd Zaem;chmod +x ins;./ins`
 
 » فقط أضغط على الكود ☝️ ليتم النسخ 
 » ثم الصقه بالترمنال وانتر تتنظر يتنصب 
@@ -3605,5 +3601,3 @@ Boss = {
  iBoss = iBoss,
  dBoss = dBoss,
  }
- 
- 
