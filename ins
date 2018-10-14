@@ -1,0 +1,182 @@
+#!/bin/bash 
+
+#    ▀█████████▄   ▄██████▄     ▄████████    ▄████████
+#      ███    ███ ███    ███   ███    ███   ███    ███
+#      ███    ███ ███    ███   ███    █▀    ███    █▀
+#     ▄███▄▄▄██▀  ███    ███   ███          ███
+#    ▀▀███▀▀▀██▄  ███    ███ ▀███████████ ▀███████████ ¦ Dev : @TH3BOSS
+#      ███    ██▄ ███    ███          ███          ███ ¦ Dev : @BLCON
+#      ███    ███ ███    ███    ▄█    ███    ▄█    ███
+#    ▄█████████▀   ▀██████▀   ▄████████▀   ▄████████▀  ¦ Source TH3BOSS BY @TH3BS
+#---------------------------------------------------------------------
+cd $(cd $(dirname $0); pwd)
+Day_now=$(date +%F)
+RED='\033[0;31m'
+SMAY='\033[0;36m'
+GREEN='\033[0;32m'
+Yellow='\033[0;33m'
+LSAMAY='\033[01;49m'
+WHITB='\033[01;90m'
+WHITEC='\033[01;91m'
+CNIL='\033[0m'
+Version=`lsb_release -rs | cut -f1 -d"."`
+if [ "$Version" -lt "16" ];then
+echo -e "${GREEN}
+ ▀█████████▄   ▄██████▄     ▄████████    ▄████████
+   ███    ███ ███    ███   ███    ███   ███    ███
+   ███    ███ ███    ███   ███    █▀    ███    █▀
+  ▄███▄▄▄██▀  ███    ███   ███          ███
+ ▀▀███▀▀▀██▄  ███    ███ ▀███████████ ▀███████████ ¦ Dev : @TH3BOSS
+   ███    ██▄ ███    ███          ███          ███ ¦ Dev : @BLCON
+   ███    ███ ███    ███    ▄█    ███    ▄█    ███ ¦ Source TH3BOSS
+ ▄█████████▀   ▀██████▀   ▄████████▀   ▄████████▀  ¦ BY @TH3BS
+ ---------------------------------------------------------------------${CNIL}"
+echo -e "${RED}| للاسف لايمكنك تنصيب السورس ع نظام اوبنتو {${Version}} يجب ان يكون على اصدار احدث مثلا اوبنتو ${SMAY}16
+${CNIL}";
+echo -e "${RED}| Sorry Canot install Source on Ubuntu {${Version}} Please upgrade Your system To Ubuntu ${SMAY}16${RED} For Run The Source Th3Boss 
+${CNIL}";
+exit;
+fi
+printf "${SMAY}\n"
+Show_Th3bs=(
+
+" ▀█████████▄   ▄██████▄     ▄████████    ▄████████"
+"   ███    ███ ███    ███   ███    ███   ███    ███"
+"   ███    ███ ███    ███   ███    █▀    ███    █▀"
+"  ▄███▄▄▄██▀  ███    ███   ███          ███"
+" ▀▀███▀▀▀██▄  ███    ███ ▀███████████ ▀███████████ ¦ Dev : @TH3BOSS"
+"   ███    ██▄ ███    ███          ███          ███ ¦ Dev : @BLCON"
+"   ███    ███ ███    ███    ▄█    ███    ▄█    ███"
+" ▄█████████▀   ▀██████▀   ▄████████▀   ▄████████▀  ¦ Source TH3BOSS BY @TH3BS"
+" ---------------------------------------------------------------------"
+)
+
+for i in ${!Show_Th3bs[@]}; do
+for ((x=0;x<${#Show_Th3bs[$i]};x++)); do
+printf "${Show_Th3bs[$i]:$x:1}"
+sleep 0.010
+done
+printf "\n"
+done
+printf "${CNIL}\n"
+
+
+memory_free=`awk '/^Mem/ {print $4}' <(free -m)`
+
+if [ "$memory_free" -le 60 ]; then
+echo -e "${RED}¦
+¦ CAUTION:${WHITEC} Your RAM size is less than 60MB.
+¦ NOW you can not install the SOURCE TH3BOSS. \n
+¦${WHITB}¦ YOUR RAM FREE SIZE IS : ${SMAY}${memory_free}MB${CNIL}"
+exit ;
+fi
+
+
+PKG_OK=`/usr/bin/dpkg-query --show --showformat='${db:Status-Status}\n' 'redis-server'`
+if [ "${PKG_OK}" == "installed" ]; then
+GET_INSTALL=$(redis-cli get TH3BOSS_INSTALL)
+if [ "${GET_INSTALL}" == "Yes" ]; then
+echo -e "
+${SMAY}>> ${LSAMAY}Source TH3BOSS${SMAY} is Already Installed ^_^ .\n${CNIL}"
+./run
+exit;
+fi 
+
+fi
+
+Progress(){
+echo `lua <<-EOF 
+print(tonumber($1)/tonumber($2)*100)
+EOF`%
+}
+
+luarocks_pkgs=(
+'redis-lua'
+'luasec'
+'luasocket'
+'Lua-cURL'
+)
+
+
+echo -e "${WHITB}\n¦ installing source ... \n\n\n\n${CNIL}"
+echo -e "${WHITB}\n¦ Resolve Problem For lock dpkgs ... \n${CNIL}"
+sudo rm -f /var/lib/dpkg/lock
+sudo rm -f /var/cache/apt/archives/lock 
+sudo rm -f /var/lib/apt/lists/lock 
+sudo dpkg  --configure -a 
+
+echo -e "${WHITB}\n¦ Update dpkg ... \n${CNIL}"
+sudo apt-get update -y
+echo -e "${WHITB}\n¦ Upgrade dpkg ... \n${CNIL}"
+sudo apt-get upgrade -y
+
+echo -e "${WHITB}\n¦ All Models is Installing ... \n${CNIL}"
+sudo apt-get --force-yes --yes install redis-server lua5.2 liblua5.2-dev lua-lgi libnotify-dev unzip software-properties-common
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get --force-yes --yes install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev lua-socket lua-sec lua-expat libevent-dev make unzip redis-server autoconf g++ libjansson-dev libpython-dev expat libexpat1-dev lua-lgi libnotify-dev libconfig++9v5 libstdc++6
+
+echo -e "${WHITB}\n¦ unzip is Installing ... \n${CNIL}"
+sudo apt-get install unzip -y
+echo -e "${WHITB}\n¦ screen Installing ... \n${CNIL}"
+sudo apt-get install screen -y
+echo -e "${WHITB}\n¦ curl is Installing ... \n${CNIL}"
+sudo apt-get install curl -y 
+echo -e "${WHITB}\n¦ htop Installing ... \n${CNIL}"
+sudo apt-get install htop -y 
+sudo apt autoremove -y
+echo -e "${WHITB}\n¦ dist-upgrade dpkg ... \n${CNIL}"
+sudo apt-get dist-upgrade -y
+echo -e "${WHITB}\n¦ Update dpkg ... \n${CNIL}"
+sudo apt-get update -y
+echo -e "${WHITB}\n¦ Upgrade dpkg ... \n${CNIL}"
+sudo apt-get upgrade -y
+
+echo -e "${WHITB}\n¦ Download luarocks v3.0.1 ... \n${CNIL}"
+git clone git://github.com/luarocks/luarocks.git
+cd luarocks
+echo -e "${WHITB}\n¦ ./configure luarocks ... \n${CNIL}"
+./configure &>/dev/null
+echo -e "${WHITB}\n¦ make bootstrap luarocks ... \n${CNIL}"
+sudo make bootstrap &>/dev/null
+cd .. 
+rm -rf luarocks
+echo -e "${WHITB}\n¦ install lua-cjson ... \n${CNIL}"
+sudo luarocks remove lua-cjson &>/dev/null
+sudo apt-get remove lua-cjson &>/dev/null
+sudo apt-get install lua-cjson
+echo -e "${WHITB}\n¦ install Dpkgs luarocks ... \n${CNIL}"
+for ((i=0;i<${#luarocks_pkgs[@]};i++)); do
+printf "\r\33[2K"
+printf "\rInstall Dpkg » Wait... [`Progress $(($i+1)) ${#luarocks_pkgs[@]}`%] [$(($i+1))/${#luarocks_pkgs[@]}] ${luarocks_pkgs[$i]}"
+luarocks install ${luarocks_pkgs[$i]} &>/dev/null
+done
+echo '\n'
+for ((i=0;i<101;i++)); do
+printf "\r Witting ... [%i%%]" $i
+sleep 0.007
+done
+printf "\n"
+	
+echo -e "${WHITB}\n¦ dist-upgrade dpkg ... \n${CNIL}"
+sudo apt-get dist-upgrade -y
+echo -e "${WHITB}\n¦ Update dpkg ... \n${CNIL}"
+sudo apt-get update -y
+echo -e "${WHITB}\n¦ Upgrade dpkg ... \n${CNIL}"
+sudo apt-get upgrade -y
+echo -e "${WHITB}\n¦ redis server starting ... \n${CNIL}"
+sudo service redis-server start
+echo -e "${WHITB}\n¦ Convert TimeZone To Asia/Baghdad  ... \n${CNIL}"
+sudo timedatectl set-timezone Asia/Baghdad
+chmod +x TG
+chmod +x run
+chmod +x ./run
+echo -e "\n
+${SMAY}>> Installation ${LSAMAY}Source TH3BOSS${SMAY} Completed ^_^ .\n
+ Now I Have Information For Your Bot  \n
+ 1- Enter Token Your Bot .
+ 2- Enter Your UserName Sudo .
+ 3- And End Press Enter To Run Source Th3Bs .\n\n
+ ${RED}Note:${Yellow} Send \"/start\"${SMAY} To Your Bot For Show All Commands.${CNIL}"
+./run
