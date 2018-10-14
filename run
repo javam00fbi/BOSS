@@ -63,18 +63,18 @@ fi
 
 TOKEN=`cat ./inc/Token.txt`
   
-#if [ "$1" == "TG" ] ; then
+if [ "$1" == "TG" ] ; then
 while(true) do
 killall -q ./TG
 rm -fr ../.telegram-cli
 ./TG -s ./inc/Run.lua --bot=$TOKEN
 done
-#else
+else
 
-#ssif ! screen -list | grep -q "boss"; then
-#screen -S boss ./run TG
-#fi
-#screen -X -S boss kill
-#screen -S boss ./run TG
+if ! screen -list | grep -q "boss"; then
+screen -S boss ./run TG
+fi
+screen -X -S boss kill
+screen -S boss ./run TG
 
-#fi
+fi
