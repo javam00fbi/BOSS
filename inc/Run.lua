@@ -466,11 +466,9 @@ end
 function tdcli_update_callback(data)
 	local msg = data.message_
 	if data.ID == "UpdateMessageSendFailed" then 
-	print(data.message_.chat_id_)
-	print(data.message_.sender_user_id_)
-	print(data.message_.id_)
-	print(data.error_message_)
-	redis:srem(boss..'users',data.message_.chat_id_)
+        if data.message_ and data.message_.sender_user_id_ then
+	redis:srem(boss..'users',data.message_.sender_user_id_)
+	end
 	elseif data.ID == "UpdateMessageSendSucceeded" then
 	if Refresh_Start then
 	Refresh_Start = false
