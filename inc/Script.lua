@@ -1863,10 +1863,11 @@ sendMsg(msg.chat_id_,msg.id_,text)
 return false
 end
 
-if MsgText[1] == "مغادره" or MsgText[1] == "ادفرني" or MsgText[1] == "احظرني" then
+if MsgText[1] == "مغادره" or MsgText[1] == "ادفرني" or MsgText[1] == "احظرني" or MsgText[1] == "اطردني" then
 if Admin() then return "📛*¦* لا استطيع طرد المدراء والادمنيه والمنشئين  \n🚶" end
-StatusLeft(msg.chat_id_,msg.sender_user_id_,function(arg,data)
+kick_user(msg.sender_user_id_,msg.chat_id_,function(arg,data)
 if data.ID == "Ok" then
+StatusLeft(msg.chat_id_,msg.sender_user_id_)
 send_msg(msg.sender_user_id_,"👨🏼‍⚕️| اهلا عزيزي , لقد تم طردك من المجموعه بامر منك \n🔖| اذا كان هذا بالخطأ او اردت الرجوع للمجموعه \n\n🔖¦فهذا رابط المجموعه 💯\n🌿¦"..Flter_Markdown(redis:get(boss..'group:name'..msg.chat_id_)).." :\n\n["..redis:get(boss..'linkGroup'..msg.chat_id_).."]\n")
 sendMsg(msg.chat_id_,msg.id_,"🚸| لقد تم طردك بنجاح , ارسلت لك رابط المجموعه في الخاص اذا وصلت لك تستطيع الرجوع متى شئت ")
 else
@@ -3582,6 +3583,7 @@ Boss = {
 "^(ادفرني)$", 
 "^(مغادره)$", 
 "^(احظرني)$", 
+"^(اطردني)$", 
 
 
 "^(السورس)$",
