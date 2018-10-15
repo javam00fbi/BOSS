@@ -2432,7 +2432,8 @@ end
 end,nil)
 return false
 end
-
+end
+ 
 if msg.text then
 
 
@@ -2951,7 +2952,6 @@ return false
 end
 
 if msg.content_ and msg.content_.caption_ then -- الرسايل الي بالكابشن
-print("sdfsd     f- ---------- ")
 if (msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") 
 or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Dd][Oo][Gg]/") 
 or msg.content_.caption_:match("[Tt].[Mm][Ee]/") 
@@ -3325,12 +3325,7 @@ return sendMsg(msg.chat_id_,msg.id_,"انجب انته لاتندفر 😏")
 end 
 end 
 
-
-
-
 end 
-
-
 end
 
 
@@ -3357,8 +3352,6 @@ end
 
 ------------------------------{ End Checking CheckExpire }------------------------
 
-
-end 
 
 end
 
