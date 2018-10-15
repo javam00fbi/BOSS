@@ -35,10 +35,15 @@ local msgs = redis:get(boss..'msgs:'..msg.sender_user_id_..':'..msg.chat_id_) or
 GetUserID(msg.sender_user_id_,function(arg,data)
 if data.username_ then UserNameID = "🎫¦ مـعرفك •⊱ @"..data.username_.." ⊰•\n" else UserNameID = "" end
 local FullName = FlterName(data.first_name_..' '..(data.last_name_ or ""),20)
+if FullName then
+ FullName = '👤¦ أســمـك •⊱ { '..FullName..' } ⊰•\n'       
+else
+ FullName = ""
+end
 GetPhotoUser(msg.sender_user_id_,function(arg, data)
 if data.photos_[0] then 
 sendPhoto(msg.chat_id_,msg.id_,data.photos_[0].sizes_[1].photo_.persistent_id_,
-'👤¦ أســمـك •⊱ { '..FullName..' } ⊰•\n'
+FullName
 ..'🎟¦ ايديــك •⊱ {'..msg.sender_user_id_..'} ⊰•\n'
 ..UserNameID
 ..'📡¦ رتبتـــك •⊱ '..TheRank..' ⊰•\n'
@@ -2304,10 +2309,24 @@ redis:del(boss..'fwd:all'..msg.sender_user_id_)
 local pv = redis:smembers(boss..'users')  
 local groups = redis:smembers(boss..'group:ids')
 for i = 1, #pv do 
-sendMsg(pv[i],0,Flter_Markdown(msg.text))
+sendMsg(pv[i],0,Flter_Markdown(msg.text),nil,function(arg,data)
+if data.send_state_ and data.send_state_.ID == "MessageIsBeingSent"  then
+print("Sender Ok")
+else
+print("Rem user From list")
+redis:srem(boss..'users',pv[i])
+end
+end)
 end
 for i = 1, #groups do 
-sendMsg(groups[i],0,Flter_Markdown(msg.text))
+sendMsg(groups[i],0,Flter_Markdown(msg.text),nil,function(arg,data)
+if data.send_state_ and data.send_state_.ID == "MessageIsBeingSent"  then
+print("Sender Ok")
+else
+print("Rem Group From list")
+rem_data_group(groups[i])
+end
+end)
 end
 return sendMsg(msg.chat_id_,msg.id_,'📜*¦* تم اذاعه الكليشه بنجاح 🏌🏻\n🗣*¦* للمـجمـوعآت » *'..#groups..'* گروب \n👥*¦* للمـشـترگين » '..#pv..' مـشـترگ \n✓')
 end
@@ -2418,8 +2437,7 @@ end
 end,nil)
 return false
 end
-end
- 
+
 if msg.text then
 
 
@@ -2598,7 +2616,7 @@ end
 end)
 return false
 elseif msg.text then -- رسايل فقط
-if utf8.len(msg.text) > 500 and redis:get(boss..'lock_spam'..msg.chat_id_) then -- قفل الكليشه 
+if UTF8_len(msg.text) > 500 and redis:get(boss..'lock_spam'..msg.chat_id_) then -- قفل الكليشه 
 Del_msg(msg.chat_id_,msg.id_,function(arg,data)
 print("\27[1;31m Msg Del becuse send long msg \27[0m")
 if data.ID == "Error" and data.code_ == 6 then
@@ -2938,6 +2956,7 @@ return false
 end
 
 if msg.content_ and msg.content_.caption_ then -- الرسايل الي بالكابشن
+print("sdfsd     f- ---------- ")
 if (msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") 
 or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Dd][Oo][Gg]/") 
 or msg.content_.caption_:match("[Tt].[Mm][Ee]/") 
@@ -3147,7 +3166,7 @@ return sendMsg(msg.chat_id_,msg.id_,su[math.random(#su)])
 elseif not SudoUser() and Text== Bot_Name and not Text2 then  
 return sendMsg(msg.chat_id_,msg.id_,ss97[math.random(#ss97)])
 elseif Text:match("^كول (.*)$") then
-if utf8.len(Text:match("^كول (.*)$")) > 50 then 
+if UTF8_len(Text:match("^كول (.*)$")) > 50 then 
 return sendMsg(msg.chat_id_,msg.id_,"📛| ما اكدر اكول اكثر من 50 حرف 🙌🏾")
 end
 local callback_Text = FlterName(Text:match("^كول (.*)$"),50)
@@ -3311,7 +3330,12 @@ return sendMsg(msg.chat_id_,msg.id_,"انجب انته لاتندفر 😏")
 end 
 end 
 
+
+
+
 end 
+
+
 end
 
 
@@ -3338,6 +3362,8 @@ end
 
 ------------------------------{ End Checking CheckExpire }------------------------
 
+
+end 
 
 end
 
