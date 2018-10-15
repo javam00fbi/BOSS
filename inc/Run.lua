@@ -90,7 +90,7 @@ redis:set(boss..":SUDO_ID:",GetUser.information.id)
 redis:set(boss..":DataCenter:",GetUser.information.DataCenter)
 redis:set(boss..":UserNameBot:",BOT_User)
 redis:set(boss..":NameBot:",BOT_NAME)
-redis:hset(boss..'username:'..GetUser.information.id,'username','@'..GetUser.information.username)
+redis:hset(boss..'username:'..GetUser.information.id,'username','@'..GetUser.information.username:gsub('_',[[\_]]))
 redis:set("TH3BOSS_INSTALL","Yes")
 info = {}
 info.username = '@'..GetUser.information.username
@@ -143,7 +143,7 @@ our_id = tonumber(boss)
 ApiToken = "https://api.telegram.org/bot"..Token
 Bot_User = redis:get(boss..":UserNameBot:")
 SUDO_ID = tonumber(redis:get(boss..":SUDO_ID:"))
-SUDO_USER = redis:hgetall(boss..'username:'..SUDO_ID).username:gsub('_',[[\_]])
+SUDO_USER = redis:hgetall(boss..'username:'..SUDO_ID).username
 version = redis:get(boss..":VERSION")
 DataCenter = redis:get(boss..":DataCenter:")
 
