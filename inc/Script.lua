@@ -2419,9 +2419,14 @@ return false
 end
 end
 
-
-if msg.type == "channel" and GroupActive then
-if msg.photo then
+if msg.photo and redis:get(boss..'welcom_ph:witting'..msg.sender_user_id_) then
+redis:del(boss..'welcom_ph:witting'..msg.sender_user_id_)
+redis:set(boss..':WELCOME_BOT',photo_id)
+sendMsg(msg.chat_id_,msg.id_,'🚸 ¦ تم تغيير صـورهہ‏‏ آلترحيب للبوت 🌿\n✓')
+return false
+end 
+end
+if msg.photo and msg.type == "channel" and GroupActive then
 if redis:get(boss..'photo:group'..msg.chat_id_..msg.sender_user_id_) then
 redis:del(boss..'photo:group'..msg.chat_id_..msg.sender_user_id_)
 tdcli_function({ID="ChangeChatPhoto",chat_id_=msg.chat_id_,photo_=GetInputFile(photo_id)},function(arg,data)
@@ -2431,12 +2436,6 @@ return sendMsg(msg.chat_id_,msg.id_,'🚸 ¦ ليس لدي صلاحيه تغيي
 end
 end,nil)
 return false
-elseif redis:get(boss..'welcom_ph:witting'..msg.sender_user_id_) then
-redis:del(boss..'welcom_ph:witting'..msg.sender_user_id_)
-redis:set(boss..':WELCOME_BOT',photo_id)
-sendMsg(msg.chat_id_,msg.id_,'🚸 ¦ تم تغيير صـورهہ‏‏ آلترحيب للبوت 🌿\n✓')
-return false
-end 
 end
 
 if msg.text then
