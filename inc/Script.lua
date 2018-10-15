@@ -2598,7 +2598,7 @@ end
 end)
 return false
 elseif msg.text then -- رسايل فقط
-if UTF8_len(msg.text) > 500 and redis:get(boss..'lock_spam'..msg.chat_id_) then -- قفل الكليشه 
+if utf8.len(msg.text) > 500 and redis:get(boss..'lock_spam'..msg.chat_id_) then -- قفل الكليشه 
 Del_msg(msg.chat_id_,msg.id_,function(arg,data)
 print("\27[1;31m Msg Del becuse send long msg \27[0m")
 if data.ID == "Error" and data.code_ == 6 then
@@ -3147,7 +3147,7 @@ return sendMsg(msg.chat_id_,msg.id_,su[math.random(#su)])
 elseif not SudoUser() and Text== Bot_Name and not Text2 then  
 return sendMsg(msg.chat_id_,msg.id_,ss97[math.random(#ss97)])
 elseif Text:match("^كول (.*)$") then
-if UTF8_len(Text:match("^كول (.*)$")) > 50 then 
+if utf8.len(Text:match("^كول (.*)$")) > 50 then 
 return sendMsg(msg.chat_id_,msg.id_,"📛| ما اكدر اكول اكثر من 50 حرف 🙌🏾")
 end
 local callback_Text = FlterName(Text:match("^كول (.*)$"),50)
