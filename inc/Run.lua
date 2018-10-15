@@ -256,6 +256,7 @@ else
 GroupActive = false
 end
 
+Rank == false
 
 if msg.sender_user_id_ == SUDO_ID then 
 Rank = 1
