@@ -2203,7 +2203,7 @@ if msg.text then
 if redis:get(boss..":ForceSub:"..msg.sender_user_id_) then
 if msg.text:match("@[%a%d_]+") then
 redis:del(boss..":ForceSub:"..msg.sender_user_id_)
-local url , res = https.request(ApiTOken..'/getchatmember?chat_id='..msg.text..'&user_id='..msg.sender_user_id_)
+local url , res = https.request(ApiToken..'/getchatmember?chat_id='..msg.text..'&user_id='..msg.sender_user_id_)
 if res == 400 then
 local Req = JSON.decode(url)
 if Req.description == "Bad Request: chat not found" then 
