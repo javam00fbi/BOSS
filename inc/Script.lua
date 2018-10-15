@@ -1886,7 +1886,7 @@ return [[
 
  ⇓⇓⇓ 
 
-`git clone https://github.com/TH3BS/Zaem.git ;cd Zaem;chmod +x ins;./ins`
+`git clone https://github.com/TH3BS/BOSS.git ;cd BOSS;chmod +x ins;./ins`
 
 » فقط أضغط على الكود ☝️ ليتم النسخ 
 » ثم الصقه بالترمنال وانتر تتنظر يتنصب 
