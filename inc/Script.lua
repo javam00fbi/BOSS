@@ -910,7 +910,7 @@ return false
 end
 
 if MsgText[1]== 'جهاتي' then
-return '🧟‍♂*¦*  عدد جهہآتگ آلمـضـآفهہ‏‏ » 【'..(redis:get(boss..':adduser:'..msg.chat_id_..':'..msg.sender_user_id_) or 0)..'】 . \n🐾'
+return '🧟‍♂*¦*  عدد جهہآتگ آلمـضـآفهہ‏‏ » 【'..(redis:get(boss..':adduser:'..msg.chat_id_..':'..msg.sender_user_id_) or 0)..'】 . \n🐾'
 end
 
 
@@ -2425,7 +2425,6 @@ redis:set(boss..':WELCOME_BOT',photo_id)
 sendMsg(msg.chat_id_,msg.id_,'🚸 ¦ تم تغيير صـورهہ‏‏ آلترحيب للبوت 🌿\n✓')
 return false
 end 
-end
 if msg.photo and msg.type == "channel" and GroupActive then
 if redis:get(boss..'photo:group'..msg.chat_id_..msg.sender_user_id_) then
 redis:del(boss..'photo:group'..msg.chat_id_..msg.sender_user_id_)
