@@ -968,9 +968,9 @@ json_data = '{"BotID": '..boss..',"UserBot": "'..Bot_User..'","Groups" : {'
 local All_Groups_ID = redis:smembers(boss..'group:ids')
 for key,GroupS in pairs(All_Groups_ID) do
 if key == 1 then
-json_data =  json_data ..'"'..GroupS..'":{"Title":"'..(redis:get(boss..'group:name'..GroupS):gsub('"','') or '')..'"'
+json_data =  json_data ..'"'..GroupS..'":{"Title":"'..(redis:get(boss..'group:name'..GroupS):gsub('"',''):gsub([[\]],'') or '')..'"'
 else
-json_data =  json_data..',"'..GroupS..'":{"Title":"'..(redis:get(boss..'group:name'..GroupS):gsub('"','') or '')..'"'
+json_data =  json_data..',"'..GroupS..'":{"Title":"'..(redis:get(boss..'group:name'..GroupS):gsub('"',''):gsub([[\]],'') or '')..'"'
 end
 
 local admins = redis:smembers(boss..'admins:'..GroupS)
