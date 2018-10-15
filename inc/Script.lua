@@ -2426,6 +2426,7 @@ redis:set(boss..':WELCOME_BOT',photo_id)
 sendMsg(msg.chat_id_,msg.id_,'🚸 ¦ تم تغيير صـورهہ‏‏ آلترحيب للبوت 🌿\n✓')
 return false
 end 
+
 if msg.photo and msg.type == "channel" and GroupActive then
 if redis:get(boss..'photo:group'..msg.chat_id_..msg.sender_user_id_) then
 redis:del(boss..'photo:group'..msg.chat_id_..msg.sender_user_id_)
@@ -2436,6 +2437,7 @@ return sendMsg(msg.chat_id_,msg.id_,'🚸 ¦ ليس لدي صلاحيه تغيي
 end
 end,nil)
 return false
+end
 end
 
 if msg.text then
@@ -3364,8 +3366,6 @@ end
 
 
 end 
-
-end
 
 
 return {
