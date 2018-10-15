@@ -2202,7 +2202,7 @@ if msg.text then
 --====================== Requst UserName Of Channel For ForceSub ==============
 
 if redis:get(boss..":ForceSub:"..msg.sender_user_id_) then
-if msg.text:match("@[%a%d_]+") then
+if msg.text:match("^@[%a%d_]+$") then
 redis:del(boss..":ForceSub:"..msg.sender_user_id_)
 local url , res = https.request(ApiToken..'/getchatmember?chat_id='..msg.text..'&user_id='..msg.sender_user_id_)
 if res == 400 then
@@ -2216,7 +2216,7 @@ return false
 end
 else
 redis:set(boss..":UserNameChaneel",msg.text)
-sendMsg(msg.chat_id_,msg.id_,"🔖| جـيـد , الان لقد تم تفعيل الاشتراك الاجباري\n📮| على قناتك : "..msg.text)
+sendMsg(msg.chat_id_,msg.id_,"🔖| جـيـد , الان لقد تم تفعيل الاشتراك الاجباري\n📮| على قناتك : ["..msg.text.."]")
 return false
 end
 else
