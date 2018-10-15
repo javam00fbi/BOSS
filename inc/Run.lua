@@ -9,14 +9,15 @@
 #    ▄█████████▀   ▀██████▀   ▄████████▀   ▄████████▀  ¦ Source TH3BOSS BY @TH3BS
 #---------------------------------------------------------------------
 ]] 
-Er_cjson, JSON  = pcall(require, "cjson")
-Er_ssl,   https = pcall(require, "ssl.https")
-Er_url,   URL   = pcall(require, "socket.url")
-Er_http,  http  = pcall(require, "socket.http")
-Er_redis, redis = pcall(require, "redis")
+Er_cjson , JSON  = pcall(require, "cjson")
+Er_ssl   , https = pcall(require, "ssl.https")
+Er_url   , URL   = pcall(require, "socket.url")
+Er_http  , http  = pcall(require, "socket.http")
+Er_redis , redis = pcall(require, "redis")
+Er_utf8  , utf8  = pcall(require, "lua-utf8")
 
 redis = redis.connect('127.0.0.1',6379)
-http.TIMEOUT = 8
+http.TIMEOUT = 5
 
 if not Er_cjson then
 print("('\n\27[1;31m￤Pkg _ Cjson is Not installed.('\n\27[0m￤")
@@ -34,7 +35,10 @@ if not Er_redis then
 print("('\n\27[1;31m￤Pkg _ redis-lua is Not installed.('\n\27[0m￤")
 os.exit()
 end
-
+if not Er_utf8 then
+print("('\n\27[1;31m￤utf8 is Not installed.('\n\27[0m￤")
+os.exit()
+end
 function create_config(Token)
 if not Token then
 io.write('\n\27[1;33m￤آلآن آدخل توكــن آلبوت  ↓  \n￤Enter TOKEN your BOT : \27[0;39;49m')
