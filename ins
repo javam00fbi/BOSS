@@ -107,6 +107,7 @@ echo -e "\x1B[01;90m\n¦ Download luarocks v2.4.3 ... \n\x1B[0m"
  sudo luarocks install luasocket
  echo -e "\x1B[01;90m\n¦ luasocket installing ...\n \x1B[0m"
  sudo luarocks install luasec
+ sudo luarocks install utf8
  echo -e "\x1B[01;90m\n¦ redis-lua installing ... \n\x1B[0m"
  sudo luarocks install redis-lua
   echo -e "\x1B[01;90m\n¦ lua-cjson installing ... \n\x1B[0m"
@@ -133,8 +134,8 @@ echo -e "\x1B[01;90m\n¦ Download luarocks v2.4.3 ... \n\x1B[0m"
  sudo apt-get install libnotify-dev -y
  cd ..
  echo -e "\x1B[01;90m\n¦ Remove luarocks ... \n\x1B[0m"
- rm -fr ./luarocks-2.4.3
- rm -fr ./luarocks-2.4.3.tar.gz
+ sudo rm -fr ./luarocks-2.4.3
+ sudo rm -fr ./luarocks-2.4.3.tar.gz
 
 echo -e "${WHITB}\n¦ redis server starting ... \n${CNIL}"
 sudo service redis-server start
