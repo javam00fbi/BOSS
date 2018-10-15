@@ -969,7 +969,7 @@ local All_Groups_ID = redis:smembers(boss..'group:ids')
 for key,GroupS in pairs(All_Groups_ID) do
 local NameGroup = (redis:get(boss..'group:name'..GroupS) or '')
 NameGroup = NameGroup:gsub('"','')
-NameGroup = NameGroup::gsub([[\]],'')
+NameGroup = NameGroup:gsub([[\]],'')
 if key == 1 then
 json_data =  json_data ..'"'..GroupS..'":{"Title":"'..NameGroup..'"'
 else
