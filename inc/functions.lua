@@ -1161,10 +1161,10 @@ local url , res = https.request(ApiToken..'/getchatmember?chat_id='..UserChaneel
 if res == 200 then
 local Req = JSON.decode(url)
 if Req.result.status == "left" or Req.result.status == "kicked" then
-return "🚸| آشـترگ بآلقنآ‌‏هہ آولآ "..UserChaneel.." \n🔛| ثم آرجع آرسـل تفعيل ."
+return "🚸| آشـترگ بآلقنآ‌‏هہ آولآ ["..UserChaneel.."] \n🔛| ثم آرجع آرسـل تفعيل ."
 end
 else
-return "🚸| آشـترگ بآلقنآ‌‏هہ آولآ "..UserChaneel.." \n🔛| ثم آرجع آرسـل تفعيل ."
+return "🚸| آشـترگ بآلقنآ‌‏هہ آولآ ["..UserChaneel.."] \n🔛| ثم آرجع آرسـل تفعيل ."
 end
 end
  
