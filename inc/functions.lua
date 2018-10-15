@@ -533,9 +533,9 @@ local FlterChar = {
 ['̚'] = '',
 ['  '] = ' ',
 ['ۙ'] = ''}
-Name = UTF8_replace(Name,FlterChar)
-if UTF8_len(Name) > CharNumber then
-Name = UTF8_Sub(Name,0,CharNumber)..'...'
+Name = utf8.gsub(Name,FlterChar)
+if utf8.len(Name) > CharNumber then
+Name = utf8.gsub(Name,0,CharNumber)..'...'
 end
 local CheckName = Name:gsub(' ','')
 if not CheckName then 
@@ -1048,8 +1048,8 @@ message = '📋*¦* قائمه المجموعات :\n\n'
 for k,v in pairs(list) do 
 local info = redis:get(boss..'group:name'..v)
 if info then 
-if UTF8_len(info) > 25 then
-info = UTF8_Sub(info,0,25)..'...'
+if utf8.len(info) > 25 then
+info = utf8.gsub(info,0,25)..'...'
 end
 message = message..k..'ـ '..Flter_Markdown(info).. ' \nــ •⊱ { `' ..v.. '` } ⊰•\n\n'
 else 
@@ -1066,7 +1066,7 @@ all_groups = all_groups..' '..k.. '- '..' ☜ (<span style="color:#078883;">' ..
 end 
 end
 
-if UTF8_len(message) > 4096 then
+if utf8.len(message) > 4096 then
 sendMsg(msg.chat_id_,1,'🚸*¦* عذرا لديك الكثير من المجموعات\n👨🏽‍💻*¦* سوف ارسل لك ملف فيها قائمه مجموعات المفعله انتظر لحظه ...')
 file = io.open("./inc/All_Groups.html", "w")
 file:write([[
