@@ -729,7 +729,7 @@ else
 for k,v in pairs(list) do
 local info = redis:hgetall(boss..'username:'..v)
 local count = redis:scard(boss..'mtwr_count'..v)
-if info and info.username:match("@[%a%d_]+") then
+if info and info.username and info.username:match("@[%a%d_]+") then
 message = message ..k.. '-l '..(info.username or '')..' » (`' ..v.. '`){'..count..'} \n'
 else
 message = message ..k.. '-l '..(info.username or '')..' l » (`' ..v.. '`){'..count..'} \n'
@@ -750,7 +750,7 @@ message = message .."📛| Not Creator ~⪼ لا يوجد منشئيين !\n"
 else
 for k,v in pairs(monsha) do
 local info = redis:hgetall(boss..'username:'..v)
-if info and info.username:match("@[%a%d_]+") then
+if info and info.username and info.username:match("@[%a%d_]+") then
 message = message .."`★_l` "..(info.username or '')..' » (`' ..v.. '`) \n'
 else
 message = message .."`★_l` "..(info.username or '')..' l » (`' ..v.. '`) \n'
@@ -764,7 +764,7 @@ message = message.."📛| Not Director ~⪼ لا يوجد مدراء !\n"
 else
 for k,v in pairs(list) do
 local info = redis:hgetall(boss..'username:'..v)
-if info and info.username:match("@[%a%d_]+") then
+if info and info.username and info.username:match("@[%a%d_]+") then
 message = message ..k.. '-l '..(info.username or '')..' » (`' ..v.. '`) \n'
 else
 message = message ..k.. '-l '..(info.username or '')..' l » (`' ..v.. '`) \n'
@@ -783,7 +783,7 @@ if #list==0 then  return  "📛*¦* لا يوجد ادمن في هذه المج�
 message = '📋*¦ قائمه الادمنيه :*\n\n'
 for k,v in pairs(list) do
 local info = redis:hgetall(boss..'username:'..v)
-if info and info.username:match("@[%a%d_]+") then
+if info and info.username and info.username:match("@[%a%d_]+") then
 message = message ..k.. '-l '..(info.username or '')..' » (`' ..v.. '`) \n'
 else
 message = message ..k.. '-l '..(info.username or '')..' l » (`' ..v.. '`) \n'
@@ -801,7 +801,7 @@ if #list == 0 then return "*📛¦ لا يوجد مميزين في القائم�
 message = '📋*¦* قائمه الاعضاء المميزين :\n'   
 for k,v in pairs(list) do
 local info = redis:hgetall(boss..'username:'..v)
-if info and info.username:match("@[%a%d_]+") then
+if info and info.username and info.username:match("@[%a%d_]+") then
 message = message ..k.. '-l '..(info.username or '')..' » (`' ..v.. '`) \n'
 else
 message = message ..k.. '-l '..(info.username or '')..' l » (`' ..v.. '`) \n'
@@ -828,7 +828,7 @@ if #list==0 then return "📋*¦*  لايوجد اعضاء مكتومين " end
 message = '📋*¦*  قائمه الاعضاء المكتومين :\n'
 for k,v in pairs(list) do
 local info = redis:hgetall(boss..'username:'..v)
-if info and info.username:match("@[%a%d_]+") then
+if info and info.username and info.username:match("@[%a%d_]+") then
 message = message ..k.. '-l '..(info.username or '')..' » (`' ..v.. '`) \n'
 else
 message = message ..k.. '-l '..(info.username or '')..' l » (`' ..v.. '`) \n'
@@ -856,7 +856,7 @@ if #list==0 then return "📋*¦* لايوجد أعضاء محظورين " end
 message = '📋*¦* قائمه الاعضاء المحظورين :\n'
 for k,v in pairs(list) do
 local info = redis:hgetall(boss..'username:'..v)
-if info and info.username:match("@[%a%d_]+") then
+if info and info.username and info.username:match("@[%a%d_]+") then
 message = message ..k.. '-l '..(info.username or '')..' » (`' ..v.. '`) \n'
 else
 message = message ..k.. '-l '..(info.username or '')..' l » (`' ..v.. '`) \n'
@@ -884,7 +884,7 @@ if #list==0 then return  "*📛¦ لايوجد اعضاء محظورين عام*
 message = '🛠*¦* قائمه المحظورين عام :\n'
 for k,v in pairs(list) do
 local info = redis:hgetall(boss..'username:'..v)
-if info and info.username:match("@[%a%d_]+") then
+if info and info.username and info.username:match("@[%a%d_]+") then
 message = message ..k.. '-l '..(info.username or '')..' » (`' ..v.. '`) \n'
 else
 message = message ..k.. '-l '..(info.username or '')..' l » (`' ..v.. '`) \n'
@@ -1310,9 +1310,9 @@ end
 if cmd == "setmnsha" then
 if UserID == our_id then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكنني رفع نفسي \n📛") 
-elseif data.type._ == "UserTypeBot" then
+elseif data.type_.ID  == "UserTypeBot" then
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن رفع بوت في البوت \n📛") 
-elseif data.type._ == "chatTypeChannel" then 
+elseif data.type_.ID == "chatTypeChannel" then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن رفع قناة في البوت \n📛") 
 end
 if redis:sismember(boss..':MONSHA_BOT:'..ChatID,UserID) then 
