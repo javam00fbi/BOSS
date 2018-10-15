@@ -16,7 +16,7 @@ Er_http,  http  = pcall(require, "socket.http")
 Er_redis, redis = pcall(require, "redis")
 
 redis = redis.connect('127.0.0.1',6379)
-http.TIMEOUT = 13
+http.TIMEOUT = 8
 
 if not Er_cjson then
 print("('\n\27[1;31m￤Pkg _ Cjson is Not installed.('\n\27[0m￤")
@@ -35,8 +35,7 @@ print("('\n\27[1;31m￤Pkg _ redis-lua is Not installed.('\n\27[0m￤")
 os.exit()
 end
 
-local ip_login = io.popen("echo $SSH_CLIENT | awk '{ print $1}'"):read('*a')
-function create_config()
+function create_config(Token)
 if not Token then
 io.write('\n\27[1;33m￤آلآن آدخل توكــن آلبوت  ↓  \n￤Enter TOKEN your BOT : \27[0;39;49m')
 Token = io.read():gsub(' ','')
@@ -59,25 +58,25 @@ io.write('\n\27[1;33m￤آدخل مـعرف آلمـطـور آلآسـآسـي 
 SUDO_USER = io.read():gsub(' ','')
 if SUDO_USER == '' then
 print('\n\27[1;31m￤ You Did not Enter USERNAME !\n￤ لم تقوم بآدخآل شـي , يرجى آلآنتبآهہ‏‏ وآدخل آلآن مـعرف آلمـطـور آلآسـآسـي')
-create_config()
+create_config(Token)
 end 
 if not SUDO_USER:match('@[%a%d_]') then
 print('\n\27[1;31m￤ This is Not USERNAME !\n￤هہ‏‏ذآ ليس مـعرف حسـآب تلگرآم , عذرآ آدخل آلمـعرف آلصـحيح آلآن . ')
-create_config()
+create_config(Token)
 end 
 local url , res = https.request('https://th3boss.ga/GetID/?User='..SUDO_USER)
 if res ~= 200 then
 print('\n\27[1;31m￤ Conect is Failed !\n￤ حدث خطـآ في آلآتصـآل بآلسـيرفر , يرجى مـرآسـلهہ‏‏ مـطـور آلسـورس ليتمـگن مـن حل آلمـشـگلهہ‏‏ في آسـرع وقت مـمـگن . !')
-create_config()
+create_config(Token)
 end
 success, GetUser = pcall(JSON.decode, url)
 if not success then
 print('\n\27[1;31m￤ Conect is Failed !\n￤ حدث مشـگلهہ‌‏ في سـگربت آلآسـتخرآج , يرجى مـرآسـلهہ‏‏ مـطـور آلسـورس ليتمـگن مـن حل آلمـشـگلهہ‏‏ في آسـرع وقت مـمـگن . !')
-create_config()
+create_config(Token)
 end
 if not GetUser.result then
 print('\n\27[1;31m￤ USERNAME is Incorrect Please Check it!\n￤ لآ يوجد حسـآب بهہ‏‏ذآ آلمـعرف , تآگد مـنهہ‏‏ جيدآ  !')
-create_config()
+create_config(Token)
 if GetUser.cause then
 print('\n\27[1;31m￤ '..GetUser.cause)
 os.exit()
