@@ -2210,7 +2210,7 @@ local Req = JSON.decode(url)
 if Req.description == "Bad Request: chat not found" then 
 sendMsg(msg.chat_id_,msg.id_,"📑| عذرا , هناك خطأ لديك \n🔖| المعرف الذي ارسلته ليس معرف قناة.")
 return false
-else
+elseif Req.description == "Bad Request: CHAT_ADMIN_REQUIRED" then
 sendMsg(msg.chat_id_,msg.id_,"📑| عذرا , لقد نسيت شيئا \n🔖| يجب رفع البوت مشرف في قناتك لتتمكن من تفعيل الاشتراك الاجباري .")
 return false
 end
