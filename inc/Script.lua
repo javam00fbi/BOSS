@@ -2304,24 +2304,10 @@ redis:del(boss..'fwd:all'..msg.sender_user_id_)
 local pv = redis:smembers(boss..'users')  
 local groups = redis:smembers(boss..'group:ids')
 for i = 1, #pv do 
-sendMsg(pv[i],0,Flter_Markdown(msg.text),nil,function(arg,data)
-if data.send_state_ and data.send_state_.ID == "MessageIsBeingSent"  then
-print("Sender Ok")
-else
-print("Rem user From list")
-redis:srem(boss..'users',pv[i])
-end
-end)
+sendMsg(pv[i],0,Flter_Markdown(msg.text))
 end
 for i = 1, #groups do 
-sendMsg(groups[i],0,Flter_Markdown(msg.text),nil,function(arg,data)
-if data.send_state_ and data.send_state_.ID == "MessageIsBeingSent"  then
-print("Sender Ok")
-else
-print("Rem Group From list")
-rem_data_group(groups[i])
-end
-end)
+sendMsg(groups[i],0,Flter_Markdown(msg.text))
 end
 return sendMsg(msg.chat_id_,msg.id_,'📜*¦* تم اذاعه الكليشه بنجاح 🏌🏻\n🗣*¦* للمـجمـوعآت » *'..#groups..'* گروب \n👥*¦* للمـشـترگين » '..#pv..' مـشـترگ \n✓')
 end
