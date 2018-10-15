@@ -16,7 +16,7 @@ Er_http,  http  = pcall(require, "socket.http")
 Er_redis, redis = pcall(require, "redis")
 
 redis = redis.connect('127.0.0.1',6379)
-http.TIMEOUT = 4
+http.TIMEOUT = 13
 
 if not Er_cjson then
 print("('\n\27[1;31m￤Pkg _ Cjson is Not installed.('\n\27[0m￤")
