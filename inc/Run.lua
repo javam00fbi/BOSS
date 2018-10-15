@@ -532,7 +532,8 @@ function tdcli_update_callback(data)
 	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/functions.lua','./inc/functions.lua')
 	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/locks.lua','./inc/locks.lua')
 	sendMsg(msg.chat_id_,msg.id_,'👷🏽| Update is Done >> 👍🏿',function(arg,data)
-	Refresh_Start = true
+	dofile("./inc/Run.lua")
+	print("Reload ~ ./inc/Run.lua")
 	end)
 return false
 	end
