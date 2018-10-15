@@ -466,11 +466,11 @@ end
 function tdcli_update_callback(data)
 	local msg = data.message_
 	if data.ID == "UpdateMessageSendFailed" then 
-	print(data.message.chat_id)
-	print(data.message.sender_user_id)
-	print(data.message.id)
-	print(data.error_message)
-	redis:srem(boss..'users',data.message.chat_id)
+	print(data.message_.chat_id_)
+	print(data.message_.sender_user_id_)
+	print(data.message_.id_)
+	print(data.error_message_)
+	redis:srem(boss..'users',data.message_.chat_id_)
 	elseif data.ID == "UpdateMessageSendSucceeded" then
 	if Refresh_Start then
 	Refresh_Start = false
@@ -479,28 +479,28 @@ function tdcli_update_callback(data)
 	end
 	if UpdateSourceStart then
 	UpdateSourceStart = false
-	EditMsg(data.message.chat_id,data.message.id,'10% - |█          |')
+	EditMsg(data.message_.chat_id_,data.message_.id_,'10% - |█          |')
 	sleep(0.2)
-	EditMsg(data.message.chat_id,data.message.id,'20% - |███         |')
+	EditMsg(data.message_.chat_id_,data.message_.id_,'20% - |███         |')
 	sleep(0.2)
-	EditMsg(data.message.chat_id,data.message.id,'30% - |████        |')
+	EditMsg(data.message_.chat_id_,data.message_.id_,'30% - |████        |')
 	sleep(0.2)
-	EditMsg(data.message.chat_id,data.message.id,'40% - |█████       |')
+	EditMsg(data.message_.chat_id_,data.message_.id_,'40% - |█████       |')
 	sleep(0.2)
-	EditMsg(data.message.chat_id,data.message.id,'50% - |██████      |')
+	EditMsg(data.message.chat_id_,data.message_.id_,'50% - |██████      |')
 	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/Run.lua','./inc/Run.lua')
 	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/Script.lua','./inc/Script.lua')
 	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/functions.lua','./inc/functions.lua')
 	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/locks.lua','./inc/locks.lua')
-	EditMsg(data.message.chat_id,data.message.id,'60% - |███████     |')
+	EditMsg(data.message_.chat_id_,data.message_.id_,'60% - |███████     |')
 	sleep(0.2)
-	EditMsg(data.message.chat_id,data.message.id,'70% - |████████    |')
+	EditMsg(data.message_.chat_id_,data.message_.id_,'70% - |████████    |')
 	sleep(0.2)
-	EditMsg(data.message.chat_id,data.message.id,'80% - |█████████   |')
+	EditMsg(data.message_.chat_id_,data.message_.id_,'80% - |█████████   |')
 	sleep(0.2)
-	EditMsg(data.message.chat_id,data.message.id,'90% - |██████████  |')
+	EditMsg(data.message_.chat_id_,data.message_.id_,'90% - |██████████  |')
 	sleep(0.2)
-	EditMsg(data.message.chat_id,data.message.id,'100% - |█████████████|\n\n🔝*¦* تم تحديث السورس الى اصدار *v'..redis:get(boss..":VERSION")..'*\n📟*¦* تم اعاده تشغيل السورس بنجاح')
+	EditMsg(data.message_.chat_id_,data.message_.id_,'100% - |█████████████|\n\n🔝*¦* تم تحديث السورس الى اصدار *v'..redis:get(boss..":VERSION")..'*\n📟*¦* تم اعاده تشغيل السورس بنجاح')
 	dofile("./inc/Run.lua")
 	print("Update Source And Reload ~ ./inc/Run.lua")
 	end
@@ -526,6 +526,16 @@ function tdcli_update_callback(data)
 	Refresh_Start = true
 	end)
 	end 
+	if msg.text== 'Update Source' and msg.sender_user_id_ == SUDO_ID then
+	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/Run.lua','./inc/Run.lua')
+	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/Script.lua','./inc/Script.lua')
+	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/functions.lua','./inc/functions.lua')
+	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/locks.lua','./inc/locks.lua')
+	sendMsg(msg.chat_id_,msg.id_,'👷🏽| Update is Done >> 👍🏿',function(arg,data)
+	Refresh_Start = true
+	end)
+return false
+	end
 	if msg.text== 'reload' and msg.sender_user_id_ == SUDO_ID then
 	sendMsg(msg.chat_id_,msg.id_,'👷🏽| {* تــم أعـاده تشغيل البوت  *} 📡.\n\n👨🏼‍💼| { Bot is Reloaded » }👍🏿',nil,function(arg,data)
 	dofile("./inc/Run.lua")
@@ -564,7 +574,7 @@ function tdcli_update_callback(data)
    	msg.forward_info = true 
 	print('¦'.." IS_FWD : Msg .")
 	elseif msg.content_.ID == "MessageVideoNote" then
-    msg.video_note = true
+        msg.video_note = true
 	elseif msg.content_.ID == "MessageSticker" then
 	print('¦'..msg.content_.ID)
 	msg.sticker = true
@@ -633,7 +643,7 @@ function tdcli_update_callback(data)
 	
 	if data.user_.type_.ID == "UserTypeDeleted" then
 	print("¦ userTypeDeleted")
-	os.execute('redis-cli KEYS "*'..data.user_.id_..'*" | xargs redis-cli DEL')
+	redis:srem(boss..'users',data.user_.id_)
 	elseif data.user_.type_.ID == "UserTypeGeneral" then
 	local CheckUser = redis:hgetall(boss..'username:'..data.user_.id_).username
 	if data.user_.username_  then 
