@@ -1691,7 +1691,7 @@ local FlterChar = {
 ["ﭠ"] = "ت",
 ["ﺷ"] = "ش",
 }
-return UTF8_replace(Name,FlterChar) or ''
+return utf8.gsub(Name,FlterChar) or ''
 end
 
 
@@ -3981,5 +3981,5 @@ local FlterChar = {
 ['🔐'] = '',
 ['🔏'] = '',
 ['🔎'] = ''}
-return UTF8_replace(Name,FlterChar) or ''
+return utf8.gsub(Name,FlterChar) or ''
 end
