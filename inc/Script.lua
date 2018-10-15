@@ -1540,7 +1540,7 @@ end
 end
 
 if MsgText[1]== 'مسح' and MsgText[2]== 'الردود العامه' then
-if not SudoUser() then return"♨️ للمطورين فقط ! 💯" end
+if not SudoBase() then return"♨️ للمطورين فقط ! 💯" end
 local names 	= redis:exists(boss..'replay:all')
 local photo 	= redis:exists(boss..'replay_photo:group:')
 local voice 	= redis:exists(boss..'replay_voice:group:')
@@ -1593,7 +1593,7 @@ return message..'\n➖➖➖'
 end
 
 if MsgText[1]== 'الردود العامه' or MsgText[1]=='الردود العامه 🗨' then
-if not SudoUser() then return "♨️ للمطور فقط ! 💯" end
+if not SudoBase() then return "♨️ للمطور فقط ! 💯" end
 local names 	= redis:hkeys(boss..'replay:all')
 local photo 	= redis:hkeys(boss..'replay_photo:group:')
 local voice 	= redis:hkeys(boss..'replay_voice:group:')
