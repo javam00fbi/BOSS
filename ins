@@ -122,9 +122,9 @@ echo -e "${WHITB}\n¦ Download luarocks v3.0.1 ... \n${CNIL}"
 git clone git://github.com/luarocks/luarocks.git
 cd luarocks
 echo -e "${WHITB}\n¦ ./configure luarocks ... \n${CNIL}"
-./configure &>/dev/null
+./configure 
 echo -e "${WHITB}\n¦ make bootstrap luarocks ... \n${CNIL}"
-sudo make bootstrap &>/dev/null
+sudo make bootstrap 
 cd .. 
 rm -rf luarocks
 echo -e "${WHITB}\n¦ install lua-cjson ... \n${CNIL}"
