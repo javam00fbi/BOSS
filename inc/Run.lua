@@ -466,7 +466,7 @@ end
 function tdcli_update_callback(data)
 	local msg = data.message_
 	if data.ID == "UpdateMessageSendFailed" then 
-        if data.message_ and data.message_.sender_user_id_ then
+      if data.message_ and data.message_.sender_user_id_ then
 	redis:srem(boss..'users',data.message_.sender_user_id_)
 	end
 	elseif data.ID == "UpdateMessageSendSucceeded" then
@@ -529,11 +529,10 @@ function tdcli_update_callback(data)
 	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/Script.lua','./inc/Script.lua')
 	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/functions.lua','./inc/functions.lua')
 	download_file('https://raw.githubusercontent.com/TH3BS/BOSS/master/inc/locks.lua','./inc/locks.lua')
-	sendMsg(msg.chat_id_,msg.id_,'👷🏽| Update is Done >> 👍🏿',function(arg,data)
+	sendMsg(msg.chat_id_,msg.id_,'👷🏽| {* تــم تحديث وتثبيت السورس  *} 📡.\n\n👨🏼‍💼| { Bot is Update » }👍🏿',nil,function(arg,data)
 	dofile("./inc/Run.lua")
 	print("Reload ~ ./inc/Run.lua")
-	end)
-return false
+	end) 
 	end
 	if msg.text== 'reload' and msg.sender_user_id_ == SUDO_ID then
 	sendMsg(msg.chat_id_,msg.id_,'👷🏽| {* تــم أعـاده تشغيل البوت  *} 📡.\n\n👨🏼‍💼| { Bot is Reloaded » }👍🏿',nil,function(arg,data)
