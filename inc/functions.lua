@@ -535,7 +535,7 @@ local FlterChar = {
 ['ۙ'] = ''}
 Name = UTF8_replace(Name,FlterChar)
 if UTF8_len(Name) > CharNumber then
-Name = UTF8_replace(Name,0,CharNumber)..'...'
+Name = UTF8_Sub(Name,0,CharNumber)..'...'
 end
 local CheckName = Name:gsub(' ','')
 if not CheckName then 
@@ -1049,7 +1049,7 @@ for k,v in pairs(list) do
 local info = redis:get(boss..'group:name'..v)
 if info then 
 if UTF8_len(info) > 25 then
-info = UTF8_replace(info,0,25)..'...'
+info = UTF8_Sub(info,0,25)..'...'
 end
 message = message..k..'ـ '..Flter_Markdown(info).. ' \nــ •⊱ { `' ..v.. '` } ⊰•\n\n'
 else 
@@ -1161,9 +1161,13 @@ if redis:get(boss..'group:add'..msg.chat_id_) then  return '🎗*¦* المجم�
 local UserChaneel = redis:get(boss..":UserNameChaneel")
 if UserChaneel and not SudoBase() then
 local url , res = https.request(ApiToken..'/getchatmember?chat_id='..UserChaneel..'&user_id='..msg.sender_user_id_)
+print("\n")
+print(ApiToken..'/getchatmember?chat_id='..UserChaneel..'&user_id='..msg.sender_user_id_)
+print("\n")
 if res == 200 then
+print(url) 
 local Req = JSON.decode(url)
-if Req.result.status == "left" or Req.result.status == "kicked" then
+if Req.ok and Req.result and Req.result.status == "left" or Req.result.status == "kicked" then
 return "🚸| آشـترگ بآلقنآ‌‏هہ آولآ ["..UserChaneel.."] \n🔛| ثم آرجع آرسـل تفعيل ."
 end
 else
@@ -1752,16 +1756,16 @@ return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..UserName..' \n🎫*¦* ا
 end
 
 if cmd == "iduser" then
-return send_msg(ChatID,"🧟‍♂*¦* آضـغط على آلآيدي ليتم آلنسـخ\n\n "..UserName.." ~⪼ ( `"..UserID.."` )",MsgID)
+return sendMsg(ChatID,MsgID,"🧟‍♂*¦* آضـغط على آلآيدي ليتم آلنسـخ\n\n "..UserName.." ~⪼ ( `"..UserID.."` )")
 end
 
 if cmd == "whois" then
-return send_msg(ChatID,
+return sendMsg(ChatID,MsgID,
   'ـ🤵🏼*¦* الاسم » '..FlterName(data.title_,30)..'\n'
 ..'🎫*¦* الايدي » {`'..UserID..'`} \n'
 ..'🎟*¦* المعرف » '..UserName..'\n'
 ..'🕵🏻️‍♀️*¦* نوع الكشف » بالمعرف\n'
-..'➖',MsgID)
+..'➖')
 end
 
 if cmd == "active" then
