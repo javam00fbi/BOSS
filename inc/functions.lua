@@ -535,7 +535,7 @@ local FlterChar = {
 ['ۙ'] = ''}
 Name = UTF8_replace(Name,FlterChar)
 if UTF8_len(Name) > CharNumber then
-Name =UTF8_replaceb(Name,0,CharNumber)..'...'
+Name = UTF8_replace(Name,0,CharNumber)..'...'
 end
 local CheckName = Name:gsub(' ','')
 if not CheckName then 
