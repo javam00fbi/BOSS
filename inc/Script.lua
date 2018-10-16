@@ -1099,12 +1099,12 @@ end
 
 if MsgText[1] == "المكتومين" then 
 if not Admin() then return "📛*¦* هذا الامر يخص {الادمن,المدير,المنشئ,المطور} فقط  \n🚶" end
-return MuteUser_list(msg.chat_id_) 
+return MuteUser_list(msg) 
 end
 
 if MsgText[1] == "المحظورين" then 
 if not Admin() then return "📛*¦* هذا الامر يخص {الادمن,المدير,المنشئ,المطور} فقط  \n🚶" end
-return GetListBanned(msg.chat_id_) 
+return GetListBanned(msg) 
 end
 
 if MsgText[1] == "رفع الادمنيه" then
@@ -2308,6 +2308,10 @@ if redis:get(boss..'fwd:all'..msg.sender_user_id_) then ---- استقبال رس
 redis:del(boss..'fwd:all'..msg.sender_user_id_)
 local pv = redis:smembers(boss..'users')  
 local groups = redis:smembers(boss..'group:ids')
+local allgp =  #pv + #groups
+if allgp == 500 then
+sendMsg(msg.chat_id_,msg.id_,'📑| اهلا عزيزي المطور \n🔖| جاري نشر التوجيه للمجموعات وللمشتركين ...')			
+end
 for i = 1, #pv do 
 tdcli_function({ID='GetChat',chat_id_ = pv[i]},function(arg,data)
 sendMsg(pv[i],0,Flter_Markdown(msg.text),nil,function(arg,data)
@@ -2338,6 +2342,9 @@ end
 if redis:get(boss..'fwd:pv'..msg.sender_user_id_) then ---- استقبال رساله الاذاعه خاص
 redis:del(boss..'fwd:pv'..msg.sender_user_id_)
 local pv = redis:smembers(boss..'users')
+if #pv == 600 then
+sendMsg(msg.chat_id_,msg.id_,'📑| اهلا عزيزي المطور \n🔖| جاري نشر الرساله للمشتركين ...')			
+end
 local NumPvDel = 0
 for i = 1, #pv do
 tdcli_function({ID='GetChat',chat_id_ = pv[i]},function(arg,data)
@@ -2358,11 +2365,12 @@ end,nil)
 end
 end
 
-
-
 if redis:get(boss..'fwd:groups'..msg.sender_user_id_) then ---- استقبال رساله الاذاعه خاص
 redis:del(boss..'fwd:groups'..msg.sender_user_id_)
 local groups = redis:smembers(boss..'group:ids')
+if #groups == 600 then
+sendMsg(msg.chat_id_,msg.id_,'📑| اهلا عزيزي المطور \n🔖| جاري نشر الرساله للمجموعات ...')			
+end
 local NumGroupsDel = 0
 for i = 1, #groups do 
 tdcli_function({ID='GetChat',chat_id_ = groups[i]},function(arg,data)
@@ -2398,17 +2406,24 @@ sendPhoto(msg.chat_id_,msg.id_,redis:get(boss..':WELCOME_BOT'),[[💯¦ مـرح
 return false
 end 
 
-
 if msg.forward_info and redis:get(boss..'fwd:'..msg.sender_user_id_) then
 redis:del(boss..'fwd:'..msg.sender_user_id_)
 local pv = redis:smembers(boss..'users')
 local groups = redis:smembers(boss..'group:ids')
+local allgp =  #pv + #groups
+if allgp == 500 then
+sendMsg(msg.chat_id_,msg.id_,'📑| اهلا عزيزي المطور \n🔖| جاري نشر التوجيه للمجموعات وللمشتركين ...')			
+end
 local number = 0
 for i = 1, #pv do 
+tdcli_function({ID='GetChat',chat_id_ = pv[i]},function(arg,data)
 fwdMsg(pv[i],msg.chat_id_,msg.id_,dl_cb,nil)
+end,nil)
 end
 for i = 1, #groups do 
+tdcli_function({ID='GetChat',chat_id_ = pv[i]},function(arg,data)
 fwdMsg(groups[i],msg.chat_id_,msg.id_,dl_cb,nil)
+end,nil)
 end
 return sendMsg(msg.chat_id_,msg.id_,'📜*¦* تم اذاعه التوجيه بنجاح 🏌🏻\n🗣*¦* للمـجمـوعآت » *'..#groups..'* \n👥*¦* للخآص » '..#pv..'\n✓')			
 end
@@ -3374,7 +3389,6 @@ end
 
 return {
 Boss = {
-"^(zz) (.*)$",
 "^(تقييد)$",
 "^(تقييد) (%d+)$",
 "^(تقييد) (@[%a%d_]+)$",
