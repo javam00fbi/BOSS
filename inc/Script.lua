@@ -69,7 +69,7 @@ end
 
 if msg.reply_id and not MsgText[2] then
 GetMsgInfo(msg.chat_id_,msg.reply_id,action_by_reply,{msg=msg,cmd="iduser"})
-elseif MsgText[2] and MsgText[2]:match("[%d]+") then
+elseif MsgText[2] and MsgText[2]:match('@[%a%d_]+') then
 GetUserName(MsgText[2],action_by_username,{msg=msg,cmd="iduser"})
 return false
 end 
