@@ -61,6 +61,7 @@ GET_INSTALL=$(redis-cli get TH3BOSS_INSTALL)
 if [ "${GET_INSTALL}" == "Yes" ]; then
 echo -e "
 ${SMAY}>> ${LSAMAY}Source TH3BOSS${SMAY} is Already Installed ^_^ .\n${CNIL}"
+sudo luarocks install luautf8
 chmod +x ./run
 chmod +x ./TG
 ./run
