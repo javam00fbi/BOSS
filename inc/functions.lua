@@ -1815,7 +1815,6 @@ redis:hset(boss..'username:'..UserID, 'username', USERNAME)
 redis:sadd(boss..'banned:'..ChatID,UserID)
 return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..USERNAME..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم حظره \n✓️')
 end)
-return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..UserName..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم حظره \n✓️')
 end  
 
 if cmd == "unban" then
