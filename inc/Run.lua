@@ -19,19 +19,19 @@ redis = redis.connect('127.0.0.1',6379)
 http.TIMEOUT = 5
 
 if not Er_cjson then
-print("('\n\27[1;31m￤Pkg _ Cjson is Not installed.('\n\27[0m￤")
+print("('\n\27[1;31m￤Pkg _ Cjson is Not installed.'\n\27[0m￤")
 os.exit()
 end
 if not Er_http then
-print("('\n\27[1;31m￤Pkg _ luaSec - https  is Not installed.('\n\27[0m￤")
+print("('\n\27[1;31m￤Pkg _ luaSec - https  is Not installed.'\n\27[0m￤")
 os.exit()
 end
 if not Er_url then
-print("('\n\27[1;31m￤Pkg _ Lua-cURL  is Not installed.('\n\27[0m￤")
+print("('\n\27[1;31m￤Pkg _ Lua-cURL  is Not installed.'\n\27[0m￤")
 os.exit()
 end
 if not Er_redis then
-print("('\n\27[1;31m￤Pkg _ redis-lua is Not installed.('\n\27[0m￤")
+print("('\n\27[1;31m￤Pkg _ redis-lua is Not installed.'\n\27[0m￤")
 os.exit()
 end
 
@@ -544,6 +544,9 @@ function tdcli_update_callback(data)
 	elseif msg.content_.ID == "MessagePinMessage" then
 	print('¦'..msg.content_.ID)
 	msg.pinned = true
+	elseif msg.forward_info_ then
+   	msg.forward_info = true 
+	print('¦'.." IS_FWD : Msg .")
 	elseif msg.content_.ID == "MessagePhoto" then
 	print('¦'..msg.content_.ID)
 	msg.photo = true 
@@ -568,9 +571,6 @@ function tdcli_update_callback(data)
 	print('¦'..msg.content_.ID)
 	msg.audio = true
 	audio_id = msg.content_.audio_.audio_.persistent_id_
-	elseif msg.forward_info_ then
-   	msg.forward_info = true 
-	print('¦'.." IS_FWD : Msg .")
 	elseif msg.content_.ID == "MessageVideoNote" then
         msg.video_note = true
 	elseif msg.content_.ID == "MessageSticker" then
