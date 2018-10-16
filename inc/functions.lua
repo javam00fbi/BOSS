@@ -24,13 +24,11 @@ end
 return infile
 end
 
-
 local clock = os.clock
 function sleep(time)  
 local untime = clock()
 while clock() - untime <= time do end
 end
-
 
 function sendMsg(chat_id,reply_id,text,markup,funcb)
 pcall(tdcli_function({
@@ -822,8 +820,8 @@ end
 end
 
 
-function MuteUser_list(chat_id)
-local list = redis:smembers(boss..'is_silent_users:'..chat_id)
+function MuteUser_list(msg)
+local list = redis:smembers(boss..'is_silent_users:'..msg.chat_id_)
 if #list==0 then return "📋*¦*  لايوجد اعضاء مكتومين " end
 message = '📋*¦*  قائمه الاعضاء المكتومين :\n'
 for k,v in pairs(list) do
@@ -850,8 +848,8 @@ return false
 end 
 end
 
-function GetListBanned(chat_id)
-local list = redis:smembers(boss..'banned:'..chat_id)
+function GetListBanned(msg)
+local list = redis:smembers(boss..'banned:'..msg.chat_id_)
 if #list==0 then return "📋*¦* لايوجد أعضاء محظورين " end
 message = '📋*¦* قائمه الاعضاء المحظورين :\n'
 for k,v in pairs(list) do
@@ -1610,8 +1608,7 @@ local ChatID = arg.msg.chat_id_
 local MsgID = arg.msg.id_
 if data.id_ then
 local UserID = data.id_
-local UserName = '@'..Flter_Markdown(arg.msg.text:match('@[%a%d_]+'):gsub('@',''))
-
+local UserName = '@'..arg.msg.text:match('@[%a%d_]+'):gsub('@',''):gsub('_',[[\_]])
 
 if cmd =="tqeed" then
 
@@ -1686,9 +1683,7 @@ end
 if cmd == "setwhitelist" then
 if UserID == our_id then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكنني رفع نفسي \n📛") 
-elseif data.type_.ID == "UserTypeBot" then
-return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن رفع بوت في البوت \n📛") 
-elseif data.type_.ID == "ChatTypeChannel" then 
+elseif data.type_.ID == "ChannelChatInfo" then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن رفع قناة في البوت \n📛") 
 end
 if redis:sismember(boss..'whitelist:'..ChatID,UserID) then 
@@ -1710,9 +1705,7 @@ end
 if cmd == "setowner" then
 if UserID == our_id then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكنني رفع نفسي \n📛") 
-elseif data.type_.ID  == "UserTypeBot" then
-return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن رفع بوت في البوت \n📛") 
-elseif data.type_.ID  == "ChatTypeChannel" then 
+elseif data.type_.ID == "ChannelChatInfo" then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن رفع قناة في البوت \n📛") 
 end
 if redis:sismember(boss..'owners:'..ChatID,UserID) then 
@@ -1726,9 +1719,7 @@ end
 if cmd == "promote" then
 if UserID == our_id then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكنني رفع نفسي \n📛") 
-elseif data.type_.ID  == "UserTypeBot" then
-return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن رفع بوت في البوت \n📛") 
-elseif data.type_.ID  == "ChatTypeChannel" then 
+elseif data.type_.ID == "ChannelChatInfo" then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن رفع قناة في البوت \n📛") 
 end
 if redis:sismember(boss..'admins:'..ChatID,UserID) then 
@@ -1787,33 +1778,21 @@ return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر المطور\n🛠"
 end
 if UserID == our_id then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكنني حظر نفسي \n📛") 
-elseif data.type_.ID == "UserTypeBot" then
-return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن حظر بوت \n📛") 
-elseif data.type_.ID == "ChatTypeChannel" then 
+elseif data.type_.ID == "ChannelChatInfo" then 
 return sendMsg(ChatID,MsgID,"👤*¦* عذرا لا يمكن حظر قناة \n📛") 
 end
 if redis:sismember(boss..'banned:'..ChatID,UserID) then 
 return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..UserName..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم بالتأكيد حظره \n✓️') 
 end
-redis:hset(boss..'username:'..UserID, 'username', UserName)
-redis:sadd(boss..'banned:'..ChatID,UserID)
 kick_user(UserID, ChatID,function(arg,data)
 if data.ID == "Error" and data.code_ == 400 then
 return sendMsg(ChatID,MsgID,'📛*¦* لا يمكنني حظر العضو .\n🎟*¦* لانه مشرف في المجموعه \n ❕')    
 elseif data.ID == "Error" and data.code_ == 3 then
 return sendMsg(ChatID,MsgID,'📛*¦* لا يمكنني حظر العضو .\n🎟*¦* ليس لدي صلاحيه الحظر او لست مشرف\n ❕')    
 end
-if UserID == our_id then
-return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر البوت\n📛") 
-elseif redis:sismember(boss..'admins:'..ChatID,UserID) then 
-return sendMsg(ChatID,MsgID,"👤*¦* لا يمكنك حظر المدراء او الادمنيه\n📛") 
-end
-if redis:sismember(boss..'banned:'..ChatID,UserID) then
-return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..USERNAME..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم بالتأكيد حظره \n✓️')
-end
-redis:hset(boss..'username:'..UserID, 'username', USERNAME)
+redis:hset(boss..'username:'..UserID, 'username', UserName)
 redis:sadd(boss..'banned:'..ChatID,UserID)
-return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..USERNAME..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم حظره \n✓️')
+return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..UserName..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم حظره \n✓️')
 end)
 end  
 
@@ -1901,10 +1880,10 @@ return sendMsg(ChatID,MsgID,'📛*¦* لا يمكنني طرد العضو .\n�
 elseif data.ID == "Error" and data.code_ == 3 then
 return sendMsg(ChatID,MsgID,'📛*¦* لا يمكنني طرد العضو .\n🎟*¦* ليس لدي صلاحيه الحظر او لست مشرف\n ❕')    
 end
-redis:hset(boss..'username:'..UserID, 'username', USERNAME)
+redis:hset(boss..'username:'..UserID, 'username', UserName)
 redis:sadd(boss..'banned:'..ChatID,UserID)
 StatusLeft(ChatID,UserID)
-return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..USERNAME..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم طرد العضو \n✓️')
+return sendMsg(ChatID,MsgID,'👤*¦* العضو » '..UserName..' \n🎫*¦* الايدي » (`'..UserID..'`)\n🛠*¦* تم طرد العضو \n✓️')
 end)
  
 end
